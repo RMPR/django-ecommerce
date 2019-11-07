@@ -67,7 +67,7 @@ class CheckoutView(View):
 
             return render(self.request, "checkout.html", context)
         except ObjectDoesNotExist:
-            messages.info(self.request, "You do not have an active order")
+            messages.info(self.request, "Vous n'avez pas de commande active")
             return redirect("core:checkout")
 
     def post(self, *args, **kwargs):
@@ -79,7 +79,7 @@ class CheckoutView(View):
                 use_default_shipping = form.cleaned_data.get(
                     'use_default_shipping')
                 if use_default_shipping:
-                    print("Using the defualt shipping address")
+                    print("Utilisation de l'adresse de livraison par defaut")
                     address_qs = Address.objects.filter(
                         user=self.request.user,
                         address_type='S',
@@ -201,7 +201,7 @@ class CheckoutView(View):
                         self.request, "Invalid payment option selected")
                     return redirect('core:checkout')
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
+            messages.warning(self.request, "Vous n'avez pas de commande active")
             return redirect("core:order-summary")
 
 
@@ -358,7 +358,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
             }
             return render(self.request, 'order_summary.html', context)
         except ObjectDoesNotExist:
-            messages.warning(self.request, "You do not have an active order")
+            messages.warning(self.request, "Vous n'avez pas de commande active")
             return redirect("/")
 
 
@@ -414,13 +414,13 @@ def remove_from_cart(request, slug):
                 ordered=False
             )[0]
             order.items.remove(order_item)
-            messages.info(request, "This item was removed from your cart.")
+            messages.info(request, "Cet article a ete supprime de votre panier")
             return redirect("core:order-summary")
         else:
-            messages.info(request, "This item was not in your cart")
+            messages.info(request, "Cet article n'etait pas dans votre panier")
             return redirect("core:product", slug=slug)
     else:
-        messages.info(request, "You do not have an active order")
+        messages.info(request, "Vous n'avez pas de commande active")
         return redirect("core:product", slug=slug)
 
 
@@ -445,13 +445,13 @@ def remove_single_item_from_cart(request, slug):
                 order_item.save()
             else:
                 order.items.remove(order_item)
-            messages.info(request, "This item quantity was updated.")
+            messages.info(request, "La quantite a ete mise a jour")
             return redirect("core:order-summary")
         else:
-            messages.info(request, "This item was not in your cart")
+            messages.info(request, "Cet article n'etait pas dans votre panier")
             return redirect("core:product", slug=slug)
     else:
-        messages.info(request, "You do not have an active order")
+        messages.info(request, "Vous n'avez aucunes commandes actives")
         return redirect("core:product", slug=slug)
 
 
@@ -460,7 +460,7 @@ def get_coupon(request, code):
         coupon = Coupon.objects.get(code=code)
         return coupon
     except ObjectDoesNotExist:
-        messages.info(request, "This coupon does not exist")
+        messages.info(request, "Ce coupon n'existe pas")
         return redirect("core:checkout")
 
 
@@ -474,10 +474,10 @@ class AddCouponView(View):
                     user=self.request.user, ordered=False)
                 order.coupon = get_coupon(self.request, code)
                 order.save()
-                messages.success(self.request, "Successfully added coupon")
+                messages.success(self.request, "Coupon ajoute avec succes")
                 return redirect("core:checkout")
             except ObjectDoesNotExist:
-                messages.info(self.request, "You do not have an active order")
+                messages.info(self.request, "Vous n'avez pas de commande active")
                 return redirect("core:checkout")
 
 
@@ -508,9 +508,9 @@ class RequestRefundView(View):
                 refund.email = email
                 refund.save()
 
-                messages.info(self.request, "Your request was received.")
+                messages.info(self.request, "Votre requete a ete recue")
                 return redirect("core:request-refund")
 
             except ObjectDoesNotExist:
-                messages.info(self.request, "This order does not exist.")
+                messages.info(self.request, "Cette commande n'existe pas")
                 return redirect("core:request-refund")

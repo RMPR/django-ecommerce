@@ -8,7 +8,7 @@
       <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
 
         <!-- Navbar brand -->
-        <span class="navbar-brand">Categories:</span>
+        <span class="navbar-brand">Categories</span>
 
         <!-- Collapse button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -22,18 +22,15 @@
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">All
+              <a class="nav-link" href="#">Toutes les categories
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Shirts</a>
+              <a class="nav-link" href="#">Cacao</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Sport wears</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Outwears</a>
+              <a class="nav-link" href="#">Cafe</a>
             </li>
 
           </ul>
@@ -41,7 +38,7 @@
 
           <form class="form-inline">
             <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+              <input class="form-control mr-sm-2" type="text" placeholder="Recherche" aria-label="Search">
             </div>
           </form>
         </div>
@@ -75,18 +72,19 @@
                 <h5>
                   <strong>
                     <a href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.title }}
-                      <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
+                      <span class="badge badge-pill {{ item.get_label_display }}-color">Nouveau</span>
                     </a>
                   </strong>
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong>$
+                  <strong>
                   {% if item.discount_price %}
                   {{ item.discount_price }}
                   {% else %}
                   {{ item.price }}
                   {% endif %}
+                      FCFA
                   </strong>
                 </h4>
 

@@ -5,15 +5,15 @@
     <div class="container">
 
     <div class="table-responsive text-nowrap">
-    <h2>Order Summary</h2>
+    <h2>Resume des commandes</h2>
     <table class="table">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Item title</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Item Price</th>
+            <th scope="col">Nom du produit</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Quantite</th>
+            <th scope="col">Prix total</th>
         </tr>
         </thead>
         <tbody>
@@ -29,10 +29,10 @@
             </td>
             <td>
             {% if order_item.item.discount_price %}
-                ${{ order_item.get_total_discount_item_price }}
+                {{ order_item.get_total_discount_item_price }} FCFA
                 <span class="badge badge-primary">Saving ${{ order_item.get_amount_saved }}</span>
             {% else %}
-                ${{ order_item.get_total_item_price }}
+                {{ order_item.get_total_item_price }} FCFA
             {% endif %}
             <a style='color: red;' href="{% url 'core:remove-from-cart' order_item.item.slug %}">
                 <i class="fas fa-trash float-right"></i>
@@ -41,11 +41,11 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan='5'>Your cart is empty</td>
+            <td colspan='5'>Votre panier est vide</td>
         </tr>
         <tr>
             <td colspan="5">
-            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+            <a class='btn btn-primary float-right' href='/'>Continuer les achats</a>
             </td>
         </tr>
         {% endfor %}
@@ -57,13 +57,13 @@
         {% endif %}
         {% if object.get_total %}
         <tr>
-            <td colspan="4"><b>Order Total</b></td>
-            <td><b>${{ object.get_total }}</b></td>
+            <td colspan="4"><b>Total des commandes</b></td>
+            <td><b>{{ object.get_total }} FCFA</b></td>
         </tr>
         <tr>
             <td colspan="5">
-            <a class='btn btn-warning float-right ml-2' href='/checkout/'>Proceed to checkout</a>
-            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+            <a class='btn btn-warning float-right ml-2' href='/checkout/'>Aller a la facturation</a>
+            <a class='btn btn-primary float-right' href='/'>Continuer les achats</a>
             </td>
         </tr>
         {% endif %}

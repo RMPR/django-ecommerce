@@ -31,11 +31,11 @@
             <p class="lead">
               {% if object.discount_price %}
               <span class="mr-1">
-                <del>${{ object.price }}</del>
+                <del>{{ object.price }} FCFA</del>
               </span>
-              <span>${{ object.discount_price }}</span>
+              <span>{{ object.discount_price }} FCFA </span>
               {% else %}
-              <span>${{ object.price }}</span>
+              <span>{{ object.price }} FCFA </span>
               {% endif %}
             </p>
 
@@ -47,17 +47,17 @@
               <!-- Default input -->
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
               <button class="btn btn-primary btn-md my-0 p" type="submit">
-                Add to cart
+                Ajouter au panier
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
 
             </form> {% endcomment %}
             <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
-              Add to cart
+              Ajouter au panier
               <i class="fas fa-shopping-cart ml-1"></i>
             </a>
             <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
-              Remove from cart
+              Enlever du panier
             </a>
 
           </div>
@@ -77,11 +77,9 @@
         <!--Grid column-->
         <div class="col-md-6 text-center">
 
-          <h4 class="my-4 h4">Additional information</h4>
+          <h4 class="my-4 h4">Informations additionnelles</h4>
 
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
-            voluptates,
-            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+          <p>Informations actuellement indisponibles</p>
 
         </div>
         <!--Grid column-->
