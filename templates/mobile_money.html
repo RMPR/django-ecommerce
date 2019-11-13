@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<main>
+    <div class="container wow fadeIn">
+        <h2 class="my-5 h2 text-center">Formulaire de paiement par Mobile money</h2>
+        <div class="row">
+            <div class="col-md-8 mb-4">
+                <div class="card">
+                    <form method="POST" class="card-body">
+                        {% csrf_token %}
+
+                        <h3>Adresse de livraison</h3>
+
+                        <div class='hideable_shipping_form'>
+
+                            <div class="md-form mb-5">
+                                <input type='text' placeholder='BP 1310 Yaounde' id='shipping_address'
+                                    name='shipping_address' class='form-control' />
+                                <label for="shipping_address" class="">Adresse</label>
+                            </div>
+
+                            <div class="md-form mb-5">
+                                <input type='text' placeholder='BP 4213 Yaounde' id='shipping_address2'
+                                    name='shipping_address2' class='form-control' />
+                                <label for="shipping_address2" class="">Adresse 2 (optionnelle)</label>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <label for="country">Pays</label>
+                                    {{ form.shipping_country }}
+                                    <div class="invalid-feedback">
+                                        Veuillez selectionner un pays
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <label for="shipping_zip">Code postal</label>
+                                    <input type='text' placeholder='Code postal' id='shipping_zip' name='shipping_zip'
+                                        class='form-control' />
+                                    <div class="invalid-feedback">
+                                        Code postal requis
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="same_billing_address"
+                                    id="same_billing_address">
+                                <label class="custom-control-label" for="same_billing_address">L'adresse de paiement est
+                                    la meme que celle de livraison</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="set_default_shipping"
+                                    id="set_default_shipping">
+                                <label class="custom-control-label" for="set_default_shipping">Sauvegarder comme adresse
+                                    par defaut</label>
+                            </div>
+
+                        </div>
+
+                        {% if default_shipping_address %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="use_default_shipping"
+                                id="use_default_shipping">
+                            <label class="custom-control-label" for="use_default_shipping">Utiliser l'adresse par
+                                defaut: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
+                        </div>
+                        {% endif %}
+
+                        <hr>
+
+                        <h3>Adresse de paiement</h3>
+
+                        <div class='hideable_billing_form'>
+                            <div class="md-form mb-5">
+                                <input type='text' placeholder='BP 1310 Yaounde' id='shipping_address'
+                                    name='shipping_address' class='form-control' />
+                                <label for="shipping_address" class="">Adresse</label>
+                            </div>
+
+                            <div class="md-form mb-5">
+                                <input type='text' placeholder='BP 4213 Yaounde' id='shipping_address2'
+                                    name='shipping_address2' class='form-control' />
+                                <label for="shipping_address2" class="">Adresse 2 (optionnelle)</label>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 mb-4">
+                                    <label for="country">Pays</label>
+                                    {{ form.billing_country }}
+                                    <div class="invalid-feedback">
+                                        Veuillez selectionner un pays correct
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <label for="billing_zip">Code postal</label>
+                                    <input type='text' placeholder='Code postal' id='billing_zip' name='billing_zip'
+                                        class='form-control' />
+                                    <div class="invalid-feedback">
+                                        Code postal requis
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="set_default_billing"
+                                    id="set_default_billing">
+                                <label class="custom-control-label" for="set_default_billing">Sauvegarder comme adresse
+                                    de paiement par defaut</label>
+                            </div>
+
+                        </div>
+
+                        {% if default_billing_address %}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="use_default_billing"
+                                id="use_default_billing">
+                            <label class="custom-control-label" for="use_default_billing">Utiliser l'adresse par defaut
+                                : {{ default_billing_address.street_address|truncatechars:10 }}</label>
+                        </div>
+                        {% endif %}
+                        <hr>
+
+                        <h3>Options de paiement</h3>
+
+                        <div class="d-block my-3">
+                            {% for value, name in form.fields.payment_option.choices %}
+                            <div class="custom-control custom-radio">
+                                <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio"
+                                    class="custom-control-input" required>
+                                <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Valider le paiement</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts %}
