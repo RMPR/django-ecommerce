@@ -9,6 +9,8 @@ git clone && cd django-ecommerce
 python -m venv .
 source ./bin/activate
 python manage.py runserver
+# or
+sh startserver.sh
 ```
 
 ## Additionnal resources
