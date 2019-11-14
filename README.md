@@ -10,6 +10,8 @@ python -m venv .
 pip install -r requirements.txt
 source ./bin/activate
 python manage.py runserver
+# or
+sh startserver.sh
 ```
 
 ## Additionnal resources
