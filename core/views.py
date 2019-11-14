@@ -13,6 +13,16 @@ from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, Us
 import random
 import string
 import stripe
+import json
+
+import random
+import string
+
+def randomString(stringLength=10):
+    """Generate a random string of fixed length """
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -196,6 +206,8 @@ class CheckoutView(View):
                     return redirect('core:payment', payment_option='stripe')
                 elif payment_option == 'P':
                     return redirect('core:payment', payment_option='paypal')
+                elif payment_option == 'M':
+                    return redirect('core:payment', payment_option='mobile-money')
                 else:
                     messages.warning(
                         self.request, "Invalid payment option selected")
@@ -207,10 +219,39 @@ class CheckoutView(View):
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
+
         order = Order.objects.get(user=self.request.user, ordered=False)
+
+        if kwargs['payment_option'] == "success":
+            # create the payment
+            payment = Payment()
+            payment.stripe_charge_id = randomString()
+            payment.user = self.request.user
+            payment.amount = order.get_total()
+            payment.save()
+
+            # assign the payment to the order
+
+            order_items = order.items.all()
+            order_items.update(ordered=True)
+            for item in order_items:
+                item.save()
+
+            order.ordered = True
+            order.payment = payment
+            order.ref_code = create_ref_code()
+            order.save()
+
+            messages.success(self.request, "Your order was successful!")
+            return redirect("/")
+
+        if kwargs["payment_option"] == "notification":
+            return "good game"
+        
         if order.billing_address:
             context = {
                 'order': order,
+                'option': kwargs['payment_option'],
                 'DISPLAY_COUPON_FORM': False
             }
             userprofile = self.request.user.userprofile
@@ -234,6 +275,7 @@ class PaymentView(View):
             return redirect("core:checkout")
 
     def post(self, *args, **kwargs):
+
         order = Order.objects.get(user=self.request.user, ordered=False)
         form = PaymentForm(self.request.POST)
         userprofile = UserProfile.objects.get(user=self.request.user)
