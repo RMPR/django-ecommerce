@@ -8,4 +8,5 @@ lib64/
 .vscode/
 bin/
 static_in_env/
+static_in_env/*
 
