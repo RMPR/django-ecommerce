@@ -4,6 +4,7 @@ media_root
 static_root
 env
 lib/
+bin/
 lib64/
 .vscode/
 static_in_env/
