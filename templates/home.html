@@ -22,15 +22,15 @@
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Toutes les categories
+                <a class="nav-link" href="/">Toutes les categories
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cacao</a>
+              <a class="nav-link" onclick="manage_categories(this)" href="#">Cacao</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cafe</a>
+                <a class="nav-link" onclick="manage_categories(this)" href="#">Cafe</a>
             </li>
 
           </ul>
@@ -38,7 +38,7 @@
 
           <form class="form-inline">
             <div class="md-form my-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Recherche" aria-label="Search">
+              <input class="form-control mr-sm-2" type="text" placeholder="Recherche" id="search" aria-label="Search">
             </div>
           </form>
         </div>
@@ -67,11 +67,14 @@
 
               <div class="card-body text-center">
                 <a href="" class="grey-text">
-                  <h5>{{ item.get_category_display }}</h5>
+                  <h5 class="categories">{{ item.get_category_display }}</h5>
                 </a>
                 <h5>
                   <strong>
-                    <a href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.title }}
+                      <a href="{{ item.get_absolute_url }}" class="dark-grey-text">
+                          <h6>
+                            {{ item.title }}
+                          </h6>
                       <span class="badge badge-pill {{ item.get_label_display }}-color">Nouveau</span>
                     </a>
                   </strong>
@@ -134,6 +137,21 @@
 
     </div>
   </main>
+  <script>
+   function manage_categories(elmnt) {
+       toDisplay = elmnt.innerText.toLowerCase()
+       categories = document.getElementsByClassName("categories")
+       for (let category of categories) {
+           card = category.parentElement.parentElement.parentElement
+           if (category.innerText.toLowerCase() !== toDisplay) {
+               card.parentElement.style.display = "none"
+           }
+           else {
+               card.parentElement.style.display = "block"
+           }
+       }
+   }
+  </script>
 
 {% endblock content %}
 
